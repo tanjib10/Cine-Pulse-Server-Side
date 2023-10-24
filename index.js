@@ -50,6 +50,12 @@ async function run() {
       const result = await brandCollection.findOne(filter);
       res.send(result)
     })
+
+    app.post('/brand',async (req,res) => {
+      const newProduct = req.body;
+      const result = await brandCollection.insertOne(newProduct);
+      res.send(result)
+    })
        
 
     
