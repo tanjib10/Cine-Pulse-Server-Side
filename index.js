@@ -27,38 +27,37 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect();
+    await client.connect();
 
     const brandCollection = client.db('cine-pulse').collection('brand-products');
 
-    app.get('/brand', async (req, res) => {
+     app.get('/brand', async (req, res) => {
       const cursor = brandCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
-
-    app.get('/brand/:brandTitle', async (req,res) => {
+ 
+     app.get('/brand/:brandTitle', async (req,res) => {
      const brandTitle = req.params.brandTitle;
      const query = {brandTitle:brandTitle}
      const items = await brandCollection.find(query).toArray();
      res.send(items)
     })
-
-    app.get('/brand/:id', async (req,res) => {
+   
+    app.get('/brand/updateProduct/:id', async (req,res) => {
       const id = req.params.id;
-      const filter = {_id : new ObjectId(id)};
-      const result = await brandCollection.findOne(filter);
+      // console.log(id)
+      const query = { _id : new ObjectId(id)};
+      const result = await brandCollection.findOne(query);
       res.send(result)
     })
 
-    app.post('/brand',async (req,res) => {
+app.post('/brand',async (req,res) => {
       const newProduct = req.body;
       const result = await brandCollection.insertOne(newProduct);
       res.send(result)
     })
-       
 
-    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
