@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -36,6 +36,23 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    app.get('/brand/:brandTitle', async (req,res) => {
+     const brandTitle = req.params.brandTitle;
+     const query = {brandTitle:brandTitle}
+     const items = await brandCollection.find(query).toArray();
+     res.send(items)
+    })
+
+    app.get('/brand/:id', async (req,res) => {
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)};
+      const result = await brandCollection.findOne(filter);
+      res.send(result)
+    })
+       
+
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
