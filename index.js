@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const brandCollection = client.db('cine-pulse').collection('brand-products');
 
@@ -58,7 +58,7 @@ app.post('/brand',async (req,res) => {
       const result = await brandCollection.insertOne(newProduct);
       res.send(result)
     })
-    
+
 
     app.put('/brand/updateProduct/:id', async (req, res) => {
       const id = req.params.id
