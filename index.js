@@ -58,6 +58,7 @@ app.post('/brand',async (req,res) => {
       const result = await brandCollection.insertOne(newProduct);
       res.send(result)
     })
+    
 
     app.put('/brand/updateProduct/:id', async (req, res) => {
       const id = req.params.id
